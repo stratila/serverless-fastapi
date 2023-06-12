@@ -44,7 +44,7 @@ jobs:
           aws-region: eu-central-1
 
       - name: Change working directory to infra
-        run: cd infra
+        run: ls -la
 
       - name: Terraform Init
         run: |
@@ -57,7 +57,7 @@ jobs:
 
       - name: Terraform Plan
         run: |
-          terraform plan -out=tfplan -input=false
+          terraform plan 
 
       - name: Terraform Format
         run: terraform fmt -check -diff
