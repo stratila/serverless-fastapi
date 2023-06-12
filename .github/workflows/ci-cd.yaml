@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+      - name: Echo Hello World
+        run: echo "Hello World"
 
       #- name: Set up Python
       #  uses: actions/setup-python@v2
@@ -30,7 +32,16 @@ jobs:
       #    ls -la $(python -c "import site; print(site.getsitepackages()[0])")
 
       # TODO app build and zip
-
+  
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+    
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
