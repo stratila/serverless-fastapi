@@ -44,10 +44,11 @@ jobs:
           aws-region: eu-central-1
 
       - name: Change working directory to infra
-        run: ls -la
+        run: cd infra
 
       - name: Terraform Init
         run: |
+          pwd
           terraform init
           if [[ -n "$(git status --porcelain terraform.lock.hcl)" ]]; then
             git add terraform.lock.hcl
