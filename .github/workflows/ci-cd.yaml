@@ -28,13 +28,16 @@ jobs:
         run: |
           python -c "import site; print(site.getsitepackages())"
           ls -la $(python -c "import site; print(site.getsitepackages()[0])")
-          cp -r $(python -c "import site; print(site.getsitepackages()[0])")/* ./temp
-          mkdir ./temp/
-          cp -r ./aws/* ./temp
+
+          mkdir -p temp
+          cp -r $(python -c "import site; print(site.getsitepackages()[0])")/* temp/
+          cp -r ./aws/* temp/
           echo "After copy:"
-          ls -la ./temp
-          zip -r ./fuction.zip ./temp
-          rm -rf ./temp
+          ls -la temp/
+          zip -r function.zip temp/
+          rm -rf temp/
+          echo "After zip:"
+          ls -la
         
   terraform:
     runs-on: ubuntu-latest
