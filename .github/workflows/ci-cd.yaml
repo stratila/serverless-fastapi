@@ -58,7 +58,7 @@ jobs:
         run: |
           pwd
           terraform init
-          if [[ -n "$(git status --porcelain terraform.lock.hcl)" ]]; then
+          if [[ -n "$(git status --porcelain .terraform.lock.hcl)" ]]; then
             git add terraform.lock.hcl
             git commit -m "Update Terraform lock file"
             git push
