@@ -31,7 +31,7 @@ jobs:
 
           mkdir -p temp
           cp -r $(python -c "import site; print(site.getsitepackages()[0])")/* temp/
-          cp -r ./aws/* temp/
+          cp -r app temp/
           echo "After copy:"
           ls -la temp/
           zip -r function.zip temp/
