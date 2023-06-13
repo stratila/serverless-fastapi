@@ -11,7 +11,7 @@ jobs:
 
  #   steps:
  #     - name: Checkout Repository
- #       uses: actions/checkout@v2
+ #       uses: actions/checkout@v3
  #     - name: Echo Hello World
  #       run: echo "Hello World"
 
@@ -40,7 +40,7 @@ jobs:
         working-directory: infra
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
     
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -63,14 +63,8 @@ jobs:
           if [[ -n "$(git status --porcelain .terraform.lock.hcl)" ]]; then
             git add .terraform.lock.hcl
             git commit -m "Update Terraform lock file"
+            git push
           fi
-      
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PAT_TOKEN }}
-          branch: ${{ github.ref }}
-          
 
       - name: Terraform Plan
         run: |
