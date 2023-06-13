@@ -30,11 +30,11 @@ jobs:
           cp -r app temp/
           zip -r9q function.zip temp/
           rm -rf temp/
-      
+
       - name: Uplod Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: function
+          name: function-artifact
           path: function.zip
 
   terraform:
@@ -45,16 +45,16 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-      
+
+      - name: Dowload Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: function-artifact
+          path: ../
+
       - name: LS
         run: ls ../ -la
 
-      #- name: Download Artifact
-      #  uses: actions/download-artifact@v2
-      #  with:
-      #    name: function
-      #    path: ../function.zip
-    
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
