@@ -23,18 +23,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Wrap dependencies and source code into a zip file
+      - name: Source and Dependencies Into Zip
         run: |
           mkdir -p temp
           cp -r $(python -c "import site; print(site.getsitepackages()[0])")/* temp/
           cp -r app temp/
-          echo "After copy:"
-          ls -la temp/
           zip -r9q function.zip temp/
           rm -rf temp/
-          echo "After zip:"
-          ls -la
-        
+      
+      - name: Uplod Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: function
+          path: function.zip
+
   terraform:
     runs-on: ubuntu-latest
     defaults:
@@ -43,7 +45,16 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+      
+      - name: LS
+        run: ls ../ -la
 
+      #- name: Download Artifact
+      #  uses: actions/download-artifact@v2
+      #  with:
+      #    name: function
+      #    path: ../function.zip
+    
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -57,10 +68,9 @@ jobs:
           aws-region: eu-central-1
 
       - name: Terraform Init
-        # need to add "github-actions[bot]" account in the list of collaborators or teams.
         run: |
-          git config --global user.name "Bohdan Stratila"
-          git config --global user.email "stratila@users.noreply.github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           terraform init
           if [[ -n "$(git status --porcelain .terraform.lock.hcl)" ]]; then
             git add .terraform.lock.hcl
