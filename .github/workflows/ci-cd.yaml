@@ -23,18 +23,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: List Dependencies in site-packages
-        #cd $GITHUB_WORKSPACE
+      - name: Wrap dependencies and source code into a zip file
         run: |
-          python -c "import site; print(site.getsitepackages())"
-          ls -la $(python -c "import site; print(site.getsitepackages()[0])")
-
           mkdir -p temp
           cp -r $(python -c "import site; print(site.getsitepackages()[0])")/* temp/
           cp -r app temp/
           echo "After copy:"
           ls -la temp/
-          zip -r function.zip temp/
+          zip -r9q function.zip temp/
           rm -rf temp/
           echo "After zip:"
           ls -la
