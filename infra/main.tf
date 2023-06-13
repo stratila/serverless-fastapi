@@ -36,9 +36,3 @@ resource "aws_s3_bucket_public_access_block" "fast_api_lambda_bucket" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
-
-resource "null_resource" "update_lock" {
-  triggers = {
-    timestamp = timestamp()
-  }
-}
