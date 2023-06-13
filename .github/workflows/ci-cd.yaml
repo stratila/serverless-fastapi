@@ -53,8 +53,8 @@ jobs:
           name: function-artifact
           path: ../
 
-      - name: LS
-        run: ls ../ -la
+      - name: zip list
+        run: unzip -v ../function.zip
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
