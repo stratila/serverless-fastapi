@@ -56,7 +56,8 @@ jobs:
 
       - name: Terraform Init
         run: |
-          pwd
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           terraform init
           if [[ -n "$(git status --porcelain .terraform.lock.hcl)" ]]; then
             git add .terraform.lock.hcl
