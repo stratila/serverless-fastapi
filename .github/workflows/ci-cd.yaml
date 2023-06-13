@@ -50,10 +50,7 @@ jobs:
       - name: Dowload Artifact
         uses: actions/download-artifact@v3
         with:
-          name: function-artifact
-
-      - name: zip list
-        run: unzip -v ../function.zip
+          name: function-artifact # saves function.zip to project root
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
