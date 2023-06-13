@@ -28,8 +28,9 @@ jobs:
           mkdir -p temp
           cp -r $(python -c "import site; print(site.getsitepackages()[0])")/* temp/
           cp -r app temp/
+          cd temp
           zip -r9q function.zip temp/
-          rm -rf temp/
+          rm -rf ../temp
 
       - name: Uplod Artifact
         uses: actions/upload-artifact@v3
