@@ -38,6 +38,7 @@ jobs:
           path: function.zip
 
   terraform:
+    needs: build
     runs-on: ubuntu-latest
     defaults:
       run:
