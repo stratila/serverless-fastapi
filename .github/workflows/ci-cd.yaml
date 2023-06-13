@@ -29,6 +29,7 @@ jobs:
           python -c "import site; print(site.getsitepackages())"
           ls -la $(python -c "import site; print(site.getsitepackages()[0])")
           cp -r $(python -c "import site; print(site.getsitepackages()[0])")/* ./temp
+          mkdir ./temp/
           cp -r ./aws/* ./temp
           echo "After copy:"
           ls -la ./temp
