@@ -70,7 +70,7 @@ resource "aws_lambda_function" "fast_api_lambda" {
   runtime = "python3.10"
   handler = "app.main.handler"
 
-  //source_code_hash = filebase64sha256("../function.zip")
+  source_code_hash = filebase64sha256("../function.zip")
 
   role = aws_iam_role.fast_api_lambda_exec.arn
 
