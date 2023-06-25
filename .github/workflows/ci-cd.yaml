@@ -65,11 +65,24 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
-      - name: Terraform Init
+      - name: Terraform Init Dev
+        if: github.ref == 'refs/heads/main'
         run: |
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          terraform init
+          terraform init -backend-config=infra/environments/dev-backend.hcl
+          if [[ -n "$(git status --porcelain .terraform.lock.hcl)" ]]; then
+            git add .terraform.lock.hcl
+            git commit -m "Update Terraform lock file"
+            git push
+          fi
+
+      - name: Terraform Init Prod
+        if: startsWith(github.ref, 'refs/heads/release')
+        run: |
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          terraform init -backend-config=infra/environments/prod-backend.hcl
           if [[ -n "$(git status --porcelain .terraform.lock.hcl)" ]]; then
             git add .terraform.lock.hcl
             git commit -m "Update Terraform lock file"

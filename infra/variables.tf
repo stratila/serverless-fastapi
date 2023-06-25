@@ -5,17 +5,6 @@ variable "region" {
   nullable = false
 }
 
-variable "backend_bucket_name" {
-  type     = string
-  nullable = false
-}
-
-variable "backend_dynamodb_table_name" {
-  type     = string
-  nullable = false
-}
-
-
 variable "lambda_bucket_name" {
   type     = string
   nullable = false
