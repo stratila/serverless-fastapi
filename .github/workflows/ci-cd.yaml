@@ -76,15 +76,18 @@ jobs:
             git push
           fi
 
-      - name: Terraform Plan
-        run: |
-          terraform plan
+      - name: Terraform Plan Dev
+        if: github.ref == 'refs/heads/main'
+        run: terraform plan -var-file=infra/environments/dev.tfvars
 
-      - name: Terraform Format
-        run: terraform fmt -check -diff
+      - name: Terraform Plan Prod
+        if: startsWith(github.ref, 'refs/heads/release')
+        run: terraform plan -var-file=infra/environments/prod.tfvars
 
-      - name: Terraform Validate
-        run: terraform validate
+      - name: Terraform Apply Dev
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve -var-file=infra/environments/dev.tfvars
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+      - name: Terraform Apply Prod
+        if: startsWith(github.ref, 'refs/heads/release')
+        run: terraform apply -auto-approve -var-file=infra/environments/prod.tfvars

@@ -7,24 +7,20 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "aws-fastapi-lambda-tfstate" # create this bucket manually
+    bucket         = var.backend_bucket_name # create this bucket manually
     key            = "state/terraform.tfstate"
-    region         = "eu-central-1"
+    region         = var.region
     encrypt        = true
-    dynamodb_table = "aws-fastapi-lambda-tf-lockid" # create this table manually
+    dynamodb_table = var.backend_dynamodb_table_name # create this table manually
   }
 }
 
 provider "aws" {
-  region = "eu-central-1"
-}
-resource "random_pet" "fast_api_lambda_bucket_name" {
-  prefix = "fastapi-lambda-bucket"
-  length = 2
+  region = var.region
 }
 
 resource "aws_s3_bucket" "fast_api_lambda_bucket" {
-  bucket        = random_pet.fast_api_lambda_bucket_name.id
+  bucket        = var.backend_bucket_name
   force_destroy = true
 }
 
@@ -38,7 +34,7 @@ resource "aws_s3_bucket_public_access_block" "fast_api_lambda_bucket" {
 }
 
 resource "aws_iam_role" "fast_api_lambda_exec" {
-  name = "fast-api-lambda"
+  name = var.lambda_function_name
 
   assume_role_policy = <<POLICY
 {
@@ -62,7 +58,7 @@ resource "aws_iam_role_policy_attachment" "fast_api_lambda_policy" {
 }
 
 resource "aws_lambda_function" "fast_api_lambda" {
-  function_name = "fast-api-lambda"
+  function_name = var.lambda_function_name
 
   s3_bucket = aws_s3_bucket.fast_api_lambda_bucket.id
   s3_key    = aws_s3_object.fast_api_lambda.key
