@@ -14,7 +14,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "fast_api_lambda_bucket" {
-  bucket        = var.backend_bucket_name
+  bucket        = var.lambda_bucket_name
   force_destroy = true
 }
 
