@@ -70,7 +70,7 @@ jobs:
         run: |
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          terraform init -backend-config=infra/environments/dev-backend.hcl
+          terraform init -backend-config=environments/dev-backend.hcl
           if [[ -n "$(git status --porcelain .terraform.lock.hcl)" ]]; then
             git add .terraform.lock.hcl
             git commit -m "Update Terraform lock file"
@@ -82,7 +82,7 @@ jobs:
         run: |
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          terraform init -backend-config=infra/environments/prod-backend.hcl
+          terraform init -backend-config=environments/prod-backend.hcl
           if [[ -n "$(git status --porcelain .terraform.lock.hcl)" ]]; then
             git add .terraform.lock.hcl
             git commit -m "Update Terraform lock file"
@@ -91,16 +91,16 @@ jobs:
 
       - name: Terraform Plan Dev
         if: github.ref == 'refs/heads/main'
-        run: terraform plan -var-file=infra/environments/dev.tfvars
+        run: terraform plan -var-file=environments/dev.tfvars
 
       - name: Terraform Plan Prod
         if: startsWith(github.ref, 'refs/heads/release')
-        run: terraform plan -var-file=infra/environments/prod.tfvars
+        run: terraform plan -var-file=environments/prod.tfvars
 
       - name: Terraform Apply Dev
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve -var-file=infra/environments/dev.tfvars
+        run: terraform apply -auto-approve -var-file=environments/dev.tfvars
 
       - name: Terraform Apply Prod
         if: startsWith(github.ref, 'refs/heads/release')
-        run: terraform apply -auto-approve -var-file=infra/environments/prod.tfvars
+        run: terraform apply -auto-approve -var-file=environments/prod.tfvars

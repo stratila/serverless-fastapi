@@ -8,13 +8,6 @@ terraform {
   backend "s3" {}
 }
 
-backend "s3" {
-  bucket         = var.backend_bucket_name # create this bucket manually
-  key            = "state/terraform.tfstate"
-  region         = var.region
-  encrypt        = true
-  dynamodb_table = var.backend_dynamodb_table_name # create this table manually
-}
 
 provider "aws" {
   region = var.region
