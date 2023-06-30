@@ -53,7 +53,7 @@ resource "aws_api_gateway_method" "api_method" {
   for_each = local.methods
 
   rest_api_id = aws_api_gateway_resource.api_resource[each.value.path].rest_api_id
-  resource_id = aws_api_gateway_resource.api_resource[each.value.path].resource_id
+  resource_id = aws_api_gateway_resource.api_resource[each.value.path].id
   http_method = each.value.method
 
   authorization = "NONE"
