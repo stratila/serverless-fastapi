@@ -78,7 +78,7 @@ resource "aws_api_gateway_integration_response" "api_integration_response" {
   rest_api_id = aws_api_gateway_integration.api_integration[each.value.method_key].rest_api_id
   resource_id = aws_api_gateway_integration.api_integration[each.value.method_key].resource_id
   http_method = each.value.method
-  stats_code  = each.value.status_code
+  status_code  = each.value.status_code
 
   response_templates = each.value.response_templates
 }
@@ -87,8 +87,8 @@ resource "aws_api_gateway_integration_response" "api_integration_response" {
 resource "aws_api_gateway_method_response" "aws_api_gateway_method_response" {
   for_each = local.responses
 
-  rest_api_id = aws_api_gateway_integration_response.api_response[each.key].rest_api_id
-  resource_id = aws_api_gateway_integration_response.api_response[each.key].resource_id
+  rest_api_id = aws_api_gateway_integration_response.api_integration_response[each.key].rest_api_id
+  resource_id = aws_api_gateway_integration_response.api_integration_response[each.key].resource_id
   http_method = each.value.method
   status_code = each.value.status_code
 
