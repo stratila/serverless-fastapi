@@ -4,11 +4,11 @@ lambda_function_name = "aws-fastapi-lambda-dev"
 dynamodb_table_name  = "dynamo-table-fastapi-lambda-dev"
 endpoints = [
   {
-    path   = "/phone"
+    path   = "phone"
     method = "GET"
   },
   {
-    path   = "/phone"
+    path   = "phone"
     method = "POST"
   }
 ]
