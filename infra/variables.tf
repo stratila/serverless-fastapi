@@ -21,3 +21,10 @@ variable "dynamodb_table_name" {
   type     = string
   nullable = false
 }
+
+variable "endpoints" {
+  type = set(object({
+    path   = string
+    method = string
+  }))
+}
