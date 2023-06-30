@@ -1,5 +1,5 @@
 locals {
-  response_codes = toset(
+  response_codes = toset([
     {
       status_code = 200
       response_templates = {
@@ -12,7 +12,7 @@ locals {
         "method.response.header.Access-Control-Allow-Origin" = true
       }
     }
-  )
+  ])
 
   endpoints = toset(var.endpoints.*.path)
 
@@ -55,6 +55,8 @@ resource "aws_api_gateway_method" "api_method" {
   rest_api_id = aws_api_gateway_resource.api_resource[each.value.key].rest_api_id
   resource_id = aws_api_gateway_resource.api_resource[each.value.key].resource_id
   http_method = each.value.method
+
+  authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "api_integration" {
