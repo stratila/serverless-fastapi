@@ -52,8 +52,8 @@ resource "aws_api_gateway_resource" "api_resource" {
 resource "aws_api_gateway_method" "api_method" {
   for_each = local.methods
 
-  rest_api_id = aws_api_gateway_resource.api_resource[each.value.key].rest_api_id
-  resource_id = aws_api_gateway_resource.api_resource[each.value.key].resource_id
+  rest_api_id = aws_api_gateway_resource.api_resource[each.value.path].rest_api_id
+  resource_id = aws_api_gateway_resource.api_resource[each.value.path].resource_id
   http_method = each.value.method
 
   authorization = "NONE"
@@ -62,9 +62,9 @@ resource "aws_api_gateway_method" "api_method" {
 resource "aws_api_gateway_integration" "api_integration" {
   for_each = local.methods
 
-  rest_api_id = aws_api_gateway_method.api_method[each.value.key].rest_api_id
-  resource_id = aws_api_gateway_method.api_method[each.value.key].resource_id
-  http_method = aws_api_gateway_method.api_method[each.value.key].http_method
+  rest_api_id = aws_api_gateway_method.api_method[each.key].rest_api_id
+  resource_id = aws_api_gateway_method.api_method[each.key].resource_id
+  http_method = aws_api_gateway_method.api_method[each.key].http_method
 
   type                    = "AWS_PROXY"
   integration_http_method = "POST"
@@ -93,7 +93,6 @@ resource "aws_api_gateway_method_response" "aws_api_gateway_method_response" {
   status_code = each.value.status_code
 
   response_models = each.value.response_models
-
   response_parameters = each.value.response_parameters
 }
 
