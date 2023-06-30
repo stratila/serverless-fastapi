@@ -10,5 +10,10 @@ endpoints = [
   {
     path   = "phone"
     method = "POST"
+  },
+  {
+    path = "phone/job"
+    method = "GET"
   }
+
 ]
